@@ -1,27 +1,49 @@
 require("dotenv").config();
 const express = require("express");
+const Discord = require("discord.js");
+const cron = require("node-cron");
+
 const db = require("./db");
-const scraping = require("./scraping")
+const scraping = require("./scraping");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.get("/", (req, res) => {
-  const linkData = {
-    link: "test najea",
-  };
+const webhookClient = new Discord.WebhookClient(
+  process.env.WEBHOOK_ID,
+  process.env.WEBHOOK_TOKEN
+);
 
-  scraping.getNews()
+/*
+ * running a task every 2 minutes
+ */
 
-  res.send("Talesrunner discord bot start!");
-});
+let isProcessRunning = false;
+cron.schedule("*/2 * * * *", async () => {
+  if (!isProcessRunning) {
+    isProcessRunning = true;
+    const currentLinks = await scraping.getNews();
 
-app.get("/test", async (req, res) => {
-  const test = await db.collection("links").get();
-  test.forEach((doc) => {
-    console.log(doc.data);
-  });
-  res.json({ tte: "test" });
+    let oldLinks = await db.collection("links").get();
+
+    let oldLinksArray = [];
+    oldLinks.forEach((link) => {
+      oldLinksArray.push(link.data().link);
+    });
+    const links = currentLinks.filter((link) => {
+      return oldLinksArray.indexOf(link) === -1;
+    });
+
+    for (const link of links) {
+      try {
+        await webhookClient.send(link);
+        await db.collection("links").doc().set({ link });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    isProcessRunning = false;
+  }
 });
 
 app.listen(PORT, () => {
