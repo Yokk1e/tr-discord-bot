@@ -15,11 +15,11 @@ const webhookClient = new Discord.WebhookClient(
 );
 
 /*
- * running a task every 2 minutes
+ * running a task every 10 minutes
  */
 
 let isProcessRunning = false;
-cron.schedule("*/2 * * * *", async () => {
+cron.schedule("*/10 * * * *", async () => {
   if (!isProcessRunning) {
     isProcessRunning = true;
     const currentLinks = await scraping.getNews();
