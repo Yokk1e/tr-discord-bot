@@ -4,12 +4,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node main.js",
-    "start:dev" : "nodemon main.js",
+    "start:dev": "nodemon main.js",
     "test": "echo \"Error : no test specified\" && exit1"
   },
   "author": "yokk1e",
   "license": "MIT",
   "dependencies": {
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "firebase-admin": "^9.5.0",
@@ -17,7 +18,7 @@
     "puppeteer": "^8.0.0"
   },
   "engines": {
-    "node": "10.21.0",
+    "node": "12.20.0",
     "npm": "6.14.4"
   },
   "devDependencies": {
