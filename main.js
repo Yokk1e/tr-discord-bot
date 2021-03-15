@@ -1,6 +1,8 @@
-const express = require("express");
 require("dotenv").config();
+const express = require("express");
 const db = require("./db");
+const scraping = require("./scraping")
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -9,7 +11,7 @@ app.get("/", (req, res) => {
     link: "test najea",
   };
 
-  db.collection("links").doc().set(linkData);
+  scraping.getNews()
 
   res.send("Talesrunner discord bot start!");
 });
