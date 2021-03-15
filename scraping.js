@@ -7,11 +7,14 @@ async function getNews() {
   const page = await browser.newPage();
   await page.goto(url);
 
-  const bodyHTML = await page.evaluate(() =>{
-    let test = document.getElementsByClassName("td-ss-main-content")
-    console.log(test)
-   } );
-  
+  const getAllTagA = await page.$$("a.td-image-wrap");
+
+  const hrefs = await Promise.all(
+    getAllTagA.map((handle) => handle.getProperty("href"))
+  );
+  const links = await Promise.all(hrefs.map((handle) => handle.jsonValue()));
+
+  return links;
 }
 
 module.exports = { getNews };
