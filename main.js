@@ -50,18 +50,19 @@ async function triggerNews() {
     }
   }
 }
+
 /*
  * running a task every 10 minutes
  */
 
-// let isProcessRunning = false;
-// cron.schedule("*/10 * * * *", async () => {
-//   if (!isProcessRunning) {
-//     isProcessRunning = true;
-//     await triggerNews();
-//     isProcessRunning = false;
-//   }
-// });
+let isProcessRunning = false;
+cron.schedule("*/10 * * * *", async () => {
+  if (!isProcessRunning) {
+    isProcessRunning = true;
+    await triggerNews();
+    isProcessRunning = false;
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server run on port ${PORT}`);
