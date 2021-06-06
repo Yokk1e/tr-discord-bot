@@ -17,7 +17,7 @@ RUN yarn
 
 COPY scraping.js ./
 COPY main.js ./
-COPY db.js ./src
+COPY db.js ./
 
 # stage: 2 — serve node
 FROM node:lts-alpine
