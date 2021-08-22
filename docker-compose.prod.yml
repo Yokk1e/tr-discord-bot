@@ -1,0 +1,6 @@
+version: "3"
+services:
+  tr-bot-app:
+    environment:
+      - NODE_ENV=production
+    command: node index.js

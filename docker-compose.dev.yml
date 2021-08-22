@@ -1,0 +1,9 @@
+version: "3"
+services:
+  tr-bot-app:
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: yarn start:dev
