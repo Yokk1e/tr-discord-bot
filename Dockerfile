@@ -5,7 +5,11 @@ COPY package.json .
 
 RUN npm install yarn
 
-RUN yarn
+ARG NODE_ENV
+RUN if [ "${NODE_ENV}" = "development" ]; \
+  then yarn; \
+  else yarn --production; \
+  fi
 
 COPY . ./
 
