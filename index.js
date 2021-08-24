@@ -1,21 +1,20 @@
 require("dotenv").config();
 const express = require("express");
-const Discord = require("discord.js");
+// const Discord = require("discord.js");
 const cron = require("node-cron");
 
-const db = require("./db");
 const scraping = require("./scraping");
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
-const webhookClient = new Discord.WebhookClient(
-  process.env.WEBHOOK_ID,
-  process.env.WEBHOOK_TOKEN
-);
+// const webhookClient = new Discord.WebhookClient(
+//   process.env.WEBHOOK_ID,
+//   process.env.WEBHOOK_TOKEN
+// );
 
 app.get("/", (req, res) => {
-  res.send("hello yokk1e");
+  res.send("testestest !");
 });
 
 app.get("/get-news/trigger", async (req, res) => {
@@ -55,14 +54,14 @@ async function triggerNews() {
  * running a task every 10 minutes
  */
 
-let isProcessRunning = false;
-cron.schedule("*/10 * * * *", async () => {
-  if (!isProcessRunning) {
-    isProcessRunning = true;
-    await triggerNews();
-    isProcessRunning = false;
-  }
-});
+// let isProcessRunning = false;
+// cron.schedule("*/10 * * * *", async () => {
+//   if (!isProcessRunning) {
+//     isProcessRunning = true;
+//     await triggerNews();
+//     isProcessRunning = false;
+//   }
+// });
 
 app.listen(PORT, () => {
   console.log(`Server run on port ${PORT}`);
